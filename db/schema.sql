@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS tasks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  assignee TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'New',
+  priority INTEGER NOT NULL CHECK(priority BETWEEN 1 AND 5),
+  description TEXT NOT NULL DEFAULT '',
+  days_left INTEGER NOT NULL DEFAULT 7,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_tasks_days_left ON tasks(days_left);

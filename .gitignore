@@ -1,0 +1,8 @@
+build/
+build-*/
+dist/
+*.db
+*.tar.gz
+.vscode/
+.idea/
+compile_commands.json

@@ -1,0 +1,49 @@
+# Простой GitLab CI (те же шаги, что в задании)
+stages:
+  - configure
+  - build
+  - test
+  - package
+
+variables:
+  GIT_STRATEGY: clone
+
+configure:
+  stage: configure
+  image: gcc:14
+  script:
+    - apt-get update && apt-get install -y cmake
+    - cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_HTTP_SERVER=ON
+  artifacts:
+    paths:
+      - build/
+    expire_in: 1 hour
+
+build:
+  stage: build
+  image: gcc:14
+  script:
+    - apt-get update && apt-get install -y cmake
+    - cmake --build build --parallel
+  artifacts:
+    paths:
+      - build/
+    expire_in: 1 hour
+
+test:
+  stage: test
+  image: gcc:14
+  script:
+    - apt-get update && apt-get install -y cmake
+    - ctest --test-dir build --output-on-failure
+
+package:
+  stage: package
+  image: gcc:14
+  script:
+    - mkdir -p dist
+    - cp build/taskflow_cli build/taskflow_tests build/taskflow_server dist/
+    - tar -czf taskflow-osipov.tar.gz -C dist .
+  artifacts:
+    paths:
+      - taskflow-osipov.tar.gz

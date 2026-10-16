@@ -1,0 +1,24 @@
+@startuml TaskFlow_Osipov_Lab2
+skinparam classAttributeIconSize 0
+
+interface ITaskRepository
+interface IPriorityStrategy
+
+class TaskService
+class InMemoryTaskRepository
+class SQLiteTaskRepository
+class DueDatePriorityStrategy
+class ClosedLastPriorityStrategy
+class CsvTaskAdapter
+class make_repository <<factory>>
+
+TaskService --> ITaskRepository
+TaskService --> IPriorityStrategy
+InMemoryTaskRepository ..|> ITaskRepository
+SQLiteTaskRepository ..|> ITaskRepository
+DueDatePriorityStrategy ..|> IPriorityStrategy
+ClosedLastPriorityStrategy ..|> IPriorityStrategy
+CsvTaskAdapter ..> Task : creates
+make_repository ..> InMemoryTaskRepository
+make_repository ..> SQLiteTaskRepository
+@enduml
